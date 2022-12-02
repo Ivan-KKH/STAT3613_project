@@ -40,8 +40,8 @@ ggplot(mapping=aes(x=1:length(fit$height),y=fit$height))+
 plot(fit,labels=data$X,hang=-1,main="",axes=FALSE)
 axis(side = 2, at = seq(0, 70))
 
-cutree(fit, k=5) #cluster index
-sol <- data.frame(cluster=cutree(fit, k=5),id=h1)
+cutree(fit, k=6) #cluster index
+sol <- data.frame(cluster=cutree(fit, k=6),id=h1)
 sol[ order(sol$cluster),1:10 ]
 # 1: NTE, 2: NTW 3:KL 4: HK Island
 colnames(sol) <- c('cluster', 'Num_transfer', 'NT-E', 'NT-W', 'KL', 'HK ISLAND', 'MTR', 'NON-MTR', 'Monthly Exp', 'Acceptable pri')
