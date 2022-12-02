@@ -1,4 +1,12 @@
 # %%
+def Cumulative(lists):
+    cu_list = []
+    length = len(lists)
+    cu_list = [sum(lists[0:x:1]) for x in range(0, length+1)]
+    cu_list.append(cu_list[-1] + lists[-1])
+    return cu_list[1:]
+
+# 1: NTE, 2: NTW 3:KL 4: HK Island
 import numpy as np
 import pandas as pd
 
@@ -62,6 +70,45 @@ mdsdata = mdsdata.applymap(convertpref)
 data.to_csv('data.csv')
 CA.to_csv('CA.csv')
 mdsdata.to_csv("MDS.csv")
+
+
+
+# %%
+NT_E = data[data["Living District"] == '1']["Acceptable price"].astype("float")
+NT_W = data[data["Living District"] == '2']["Acceptable price"].astype("float")
+KL = data[data["Living District"] == '3']["Acceptable price"].astype("float")
+HKI = data[data["Living District"] == '4']["Acceptable price"].astype("float")
+
+
+# %%
+
+# NTE
+hist_NTE = np.histogram(NT_E)
+cumulative_NTE = Cumulative(hist_NTE[0])
+NTE_sales = pd.DataFrame(list(zip(hist_NTE[1], cumulative_NTE)), columns = ["price", "sales"])
+NTE_sales.to_csv("NTE_sales.csv", index = None)
+
+# NTW
+hist_NTW = np.histogram(NT_W)
+cumulative_NTW = Cumulative(hist_NTW[0])
+NTW_sales = pd.DataFrame(list(zip(hist_NTW[1], cumulative_NTW)), columns = ["price", "sales"])
+NTW_sales.to_csv("NTW_sales.csv", index = None)
+
+# KL
+hist_KL = np.histogram(KL, np.arange(0, 22.5, 2.5))
+cumulative_KL = Cumulative(hist_KL[0])
+KL_sales = pd.DataFrame(list(zip(hist_KL[1], cumulative_KL)), columns = ["price", "sales"])
+KL_sales.to_csv("KL_sales.csv", index = None)
+
+# HKI
+hist_HKI = np.histogram(HKI, np.arange(0, 17.5, 2.5))
+cumulative_HKI = Cumulative(hist_HKI[0])
+HKI_sales = pd.DataFrame(list(zip(hist_HKI[1], cumulative_HKI)), columns = ["price", "sales"])
+HKI_sales.to_csv("HKI_sales.csv", index = None)
+
+
+# %%
+cumulative_NTW
 
 
 
