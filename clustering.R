@@ -40,7 +40,7 @@ ggplot(mapping=aes(x=1:length(fit$height),y=fit$height))+
 plot(fit,labels=data$X,hang=-1,main="",axes=FALSE)
 axis(side = 2, at = seq(0, 70))
 
-cutree(fit, k=6) #cluster index
+cluster <- cutree(fit, k=6) #cluster index
 sol <- data.frame(cluster=cutree(fit, k=6),id=h1)
 sol[ order(sol$cluster),1:10 ]
 # 1: NTE, 2: NTW 3:KL 4: HK Island
@@ -65,3 +65,32 @@ ggplot(tbm,
 
 ## continue K-mean clustering based on centre pt with ward
 ## similar to Asm2 q3
+clustered_tbm <- data.frame(cbind(h1, cluster))
+
+cluster_1 <- clustered_tbm[clustered_tbm$cluster == 1, ][, 1:10]
+cluster_2 <- clustered_tbm[clustered_tbm$cluster == 2, ][, 1:10]
+cluster_3 <- clustered_tbm[clustered_tbm$cluster == 3, ][, 1:10]
+cluster_4 <- clustered_tbm[clustered_tbm$cluster == 4, ][, 1:10]
+cluster_5 <- clustered_tbm[clustered_tbm$cluster == 5, ][, 1:10]
+cluster_6 <- clustered_tbm[clustered_tbm$cluster == 6, ][, 1:10]
+
+centroids <- aggregate( .~cluster, data=clustered_tbm, mean)[, 2:10]
+
+centroids
+fit1<-kmeans(x=h1,centers=centroids)
+fit1
+centers<-fit1$centers
+size <- fit1$size
+centers
+tb<-data.frame(cbind(centers,cluster=1: 6))
+tb
+colnames(tb) <- c('Num_transfer', 'NT-E', 'NT-W', 'KL', 'HK ISLAND', 'MTR', 'NON-MTR', 'Monthly Exp', 'Acceptable pri', 'cluster')
+tbm<-melt(tb,id.vars='cluster')
+tbm$cluster<-factor(tbm$cluster)
+ggplot(tbm, 
+       aes(x = variable, y = value, group = cluster, colour = cluster)) + 
+  geom_line(aes(linetype=cluster))+
+  geom_point(aes(shape=cluster)) +
+  geom_hline(yintercept=0) +
+  labs(x=NULL,y="mean")
+
