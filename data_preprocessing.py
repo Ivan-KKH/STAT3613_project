@@ -40,8 +40,9 @@ data.columns= data_col_name
 # group all responses for over $6000 monthly expense
 # Group MTR and non-MTR
 # Group more or equal to 3 transfers
-data = data.replace({'Monthly Expense': {'4':'3', '5': '3', '6':'3'}, 'Transportation': {'3':'2', '4':'2', '5':'2', '6':'2'}, 'Num_transfer': {'4': '3', '5': '3'}})
-
+data = data.replace({"Year of Study": {"1": "3", "2": "3"},  'Monthly Expense': {'4':'3', '5': '3', '6':'3'}, 'Transportation': {'3':'2', '4':'2', '5':'2', '6':'2'}, 'Num_transfer': {'4': '3', '5': '3'}})
+data.loc[:, "Time": "Walking Distance"] = data.loc[:, "Transportation" : "Walking Distance"].astype(int).applymap(convertpref)
+data = data.drop(data.loc[:, "MTR": "Tram"], axis = 1)
 
 CA_raw = CA_raw.fillna(0)
 CA_raw = CA_raw.astype(int)
@@ -59,6 +60,9 @@ mdsdata.columns = ['MTR',	'Bus',	'Shuttle Bus',	'Taxi',	'Tram']
 mdsdata = mdsdata.T
 mdsdata = mdsdata.apply(pd.to_numeric)
 mdsdata = mdsdata.applymap(convertpref)
+
+
+
 
 
 # %%
@@ -109,17 +113,23 @@ HKI_sales.to_csv("HKI_sales.csv", index = None)
 
 
 # %%
+print(np.median(NT_E))
+print(np.median(NT_W))
+print(np.median(KL))
+print(np.median(HKI))
 
 
 
 # %%
-
+np.median(data[data["Shuttle Bus"] == "1"]["Acceptable price"].astype("float"))
+# %%
 
 # %%
-def Cumulative(lists):
-    cu_list = []
-    length = len(lists)
-    cu_list = [sum(lists[0:x:1]) for x in range(0, length+1)]
-    cu_list.append(cu_list[-1] + lists[-1])
-    return cu_list[1:]
+
+# %%
+
+
+
+data
+
 # %%

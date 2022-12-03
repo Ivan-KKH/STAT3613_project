@@ -5,7 +5,7 @@ library(ggplot2)
 library(reshape2)
 data <- read.csv("data.csv")
 
-
+data
 
 describe(data,skew=F,ranges=F)
 
@@ -64,7 +64,6 @@ ggplot(tbm,
 
 
 ## continue K-mean clustering based on centre pt with ward
-## similar to Asm2 q3
 clustered_tbm <- data.frame(cbind(h1, cluster))
 
 cluster_1 <- clustered_tbm[clustered_tbm$cluster == 1, ][, 1:10]

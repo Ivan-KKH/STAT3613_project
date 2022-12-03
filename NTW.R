@@ -41,15 +41,14 @@ net<-function(x) {
   nd<-data.frame(nprice=x)
   nsales<-predict(fit_ntw,nd)
   # de-norm
-  margin<- x * norm_price - 18.33 * nsales * norm_sales
+  margin<- x * norm_price - 19
   # de-norm
   sales <-nsales* norm_sales
   # de-norm
   price <- x * norm_price
-  cost <- 18.33 * sales
-  gross<-margin*sales
-  net<-gross-cost
-  print(cbind(x, nsales, margin, sales, price, cost, gross, net))
+  cost <- 19 * sales
+  net<-margin*sales
+  print(cbind(x, nsales, margin, sales, price, cost, net))
   
   
   
@@ -58,6 +57,6 @@ net<-function(x) {
 }
 
 net(2.5)
-op<-optimize(f=net,interval=c(0,2.5), maximum= TRUE)
+op<-optimize(f=net,interval=c(0,12), maximum= TRUE)
 
 op
