@@ -54,7 +54,7 @@ for i, val  in enumerate(count):
 CA = pd.DataFrame(CA)
 CA.columns = ['Fast', 'Con', 'Seat', 'Transfer', 'Price', 'Walk']
 CA.index = ['MTR', 'Bus', 'Shttle', 'Taxi', 'Tram']
-
+CA = CA.T
 
 mdsdata.columns = ['MTR',	'Bus',	'Shuttle Bus',	'Taxi',	'Tram']
 mdsdata = mdsdata.T
@@ -119,9 +119,6 @@ print(np.median(KL))
 print(np.median(HKI))
 
 
-
-# %%
-np.median(data[data["Shuttle Bus"] == "1"]["Acceptable price"].astype("float"))
 # %%
 
 # %%
